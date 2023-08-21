@@ -2,7 +2,7 @@
   <div class="login">
     <div class="h_title">
       <div class="title">
-        <span>易瑞生物设备管理平台</span>
+        <span>设备管理平台</span>
         <span style="font-size: 28px;">欢迎使用，请登录</span>
       </div>
     </div>
@@ -21,7 +21,7 @@
           <label>验证码</label>
           <div class="check">
             <input class="check_input" v-model='userInfo.code' placeholder="请输入验证码" />
-            <img class="check_pic" @click="resetCode()" :src="codeUrl">
+            <img class="check_pic" @click="getcode()" :src="codeUrl">
           </div>
         </div>
         <div class="login_">
@@ -39,11 +39,8 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import './login.less'
-import Taro from '@tarojs/taro';
-
-const codeUrl = ref<string>('/api/user/code');
-const resetCode = () => codeUrl.value = codeUrl.value + '?' + Math.random()
-
+import { getCaptchaCode, verifyCaptchaCode } from '../../api/user';
+import { onMounted } from 'vue';
 
 const userInfo = reactive({
   userName: '',
@@ -51,17 +48,21 @@ const userInfo = reactive({
   code: ''
 })
 
-const submit = async () => {
-  const res = await Taro.request({
-    url: '/api/user/create',
-    data: JSON.stringify(userInfo),
-    header: {
-      'content-type': 'application/json'
-    },
-  })
 
-  console.log("res>>>", res)
+// 验证码
+let codeUrl: any = ref(null);
+//获取验证码
+const getcode = async () => {
+  codeUrl.value = await getCaptchaCode();
+};
+// 登录
+const submit = async () => {
+  await verifyCaptchaCode(userInfo)
 }
+
+onMounted(()=>{
+  getcode();
+})
 
 
 </script>

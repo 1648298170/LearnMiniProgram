@@ -1,11 +1,8 @@
 import { defineConfig, type UserConfigExport } from '@tarojs/cli'
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import devConfig from './dev'
 import prodConfig from './prod'
 import ComponentsPlugin from 'unplugin-vue-components/webpack'
 import NutUIResolver from '@nutui/nutui-taro/dist/resolver'
-
-const Domain = 'http://localhost:3001'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
@@ -99,20 +96,6 @@ export default defineConfig(async (merge, { command, mode }) => {
           resolvers: [NutUIResolver({ taro: true })]
         }))
       },
-      // 设置代理服务器转发
-      devServer: {
-        host: 'localhost',
-        port: 3000,
-        proxy: {
-          '/api/': {
-            target: 'http://localhost:3001',
-            pathRewrite: {
-              '^/api/': '' // 所以带有/api/请求的链接一律替换为空并追加域名请求
-            },
-            changeOrigin: true
-          }
-        }
-      }
     },
     rn: {
       appName: 'taroDemo',
