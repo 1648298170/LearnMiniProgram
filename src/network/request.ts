@@ -10,7 +10,7 @@ const request =async (params: any)=> {
     let { url, data, method, headers } = params;
     let baseUrl = getBaseUrl();
     let contentType = 'application/json;charset=UTF-8';
-    contentType = headers?.contentType || contentType;;
+    contentType = headers?.contentType || contentType;
     const option = {
         url:baseUrl + url,//请求地址
         data:JSON.stringify(data),  //传参

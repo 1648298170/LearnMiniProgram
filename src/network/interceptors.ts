@@ -2,11 +2,11 @@ import Taro from "@tarojs/taro";
 import { HTTP_STATUS } from "./codeConfig";
 import { pageToLogin } from "./utils";
 
-const customInterceptor = (chain:any)=>{
+const customInterceptor = (chain: any) => {
     const requestParams = chain.requestParams;
-    Taro.showLoading({title:'加载中'});
+    Taro.showLoading({ title: '加载中' });
     Taro.hideLoading();
-    return chain.proceed(requestParams).then(res=>{
+    return chain.proceed(requestParams).then(res => {
         // if(res.statusCode === HTTP_STATUS.NOT_FOUND){
         //     return Promise.reject({desc:'请求资源不存在'});
         // }else if(res.statusCode === HTTP_STATUS.BAD_GATEWAY){
@@ -32,8 +32,12 @@ const customInterceptor = (chain:any)=>{
         //     }
         //     return res.data;
         // }
-        return res.data;
-    }).catch(error =>{
+        let { cookies, data } = res;
+        if (cookies) {
+            Taro.setStorageSync('Cookies', cookies[0])
+        }
+        return data;
+    }).catch(error => {
         Taro.hideLoading();
         return Promise.reject(error);
     })

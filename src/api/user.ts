@@ -1,7 +1,8 @@
 import request from "../network/request";
+import Taro from "@tarojs/taro";
 
 export const getCaptchaCode =async ()=>{
-    
+    let cookie = Taro.getStorageSync('Cookies')
     return await request({
         url:'/user/code',
         method:'get',
@@ -9,6 +10,7 @@ export const getCaptchaCode =async ()=>{
             _:Math.random()
         },
         headers:{
+            Cookie:cookie,
             contentType:'image/svg+xml;charset=UTF-8'
         }
     })
