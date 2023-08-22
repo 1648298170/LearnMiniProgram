@@ -18,7 +18,7 @@ export const getCaptchaCode =async ()=>{
 
 export const verifyCaptchaCode =async (params:any)=>{
     return await request({
-        url:'/user/verifyCode',
+        url:'/user/login',
         method:'post',
         data:params,
     })

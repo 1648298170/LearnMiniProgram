@@ -33,6 +33,9 @@ const customInterceptor = (chain: any) => {
         //     return res.data;
         // }
         let { cookies, data } = res;
+        if(data.data&&data.data.token){
+            Taro.setStorageSync('token',data.data.token);
+        }
         if (cookies) {
             Taro.setStorageSync('Cookies', cookies[0])
         }

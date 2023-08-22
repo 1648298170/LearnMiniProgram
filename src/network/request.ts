@@ -9,6 +9,7 @@ interceptors.forEach(interceptorItem => Taro.addInterceptor(interceptorItem));
 const request =async (params: any)=> {
     let { url, data, method, headers } = params;
     let baseUrl = getBaseUrl();
+    let cookie = Taro.getStorageSync('Cookies');
     let contentType = 'application/json;charset=UTF-8';
     contentType = headers?.contentType || contentType;
     const option = {
@@ -17,6 +18,7 @@ const request =async (params: any)=> {
         method:method, //请求方式
         // timeout:50000,//超时时间
         header:{//请求头
+            'Cookie':cookie,
             'conten-type':contentType,
         }
     };

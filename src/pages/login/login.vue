@@ -11,7 +11,7 @@
       <div class="content">
         <div class="label_area">
           <label>账号</label>
-          <input class="label_input" v-model='userInfo.userName' placeholder="请输入账号" />
+          <input class="label_input" v-model='userInfo.name' placeholder="请输入账号" />
         </div>
         <div class="label_area">
           <label>密码</label>
@@ -41,9 +41,10 @@ import { ref, reactive } from 'vue'
 import './login.less'
 import { getCaptchaCode, verifyCaptchaCode } from '../../api/user';
 import { onMounted } from 'vue';
+import Taro from '@tarojs/taro';
 
 const userInfo = reactive({
-  userName: '',
+  name: '',
   password: '',
   code: ''
 })
@@ -57,7 +58,11 @@ const getcode = async () => {
 };
 // 登录
 const submit = async () => {
-  await verifyCaptchaCode(userInfo)
+  try{
+    await verifyCaptchaCode(userInfo)
+  }catch(error){
+    console.log(error);
+  }
 }
 
 onMounted(()=>{
