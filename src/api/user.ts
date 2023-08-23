@@ -24,7 +24,16 @@ export const verifyCaptchaCode =async (params:any)=>{
     })
 }
 
+export const getUserList =async (params:any)=>{
+    return await request({
+        url:'/user/page/list',
+        method:'get',
+        data:params,
+    })
+}
+
 export default {
     getCaptchaCode,
-    verifyCaptchaCode
+    verifyCaptchaCode,
+    getUserList
 };

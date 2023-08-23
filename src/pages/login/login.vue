@@ -59,7 +59,10 @@ const getcode = async () => {
 // 登录
 const submit = async () => {
   try{
-    await verifyCaptchaCode(userInfo)
+    await verifyCaptchaCode(userInfo);
+    Taro.navigateTo({
+      url:'/pages/layout/layout'
+    })
   }catch(error){
     console.log(error);
   }

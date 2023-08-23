@@ -32,9 +32,15 @@ const customInterceptor = (chain: any) => {
         //     }
         //     return res.data;
         // }
+        if (res.statusCode === 401) {
+            Taro.setStorageSync("Authorization", "");
+            // TODO根据自身业务修改
+            pageToLogin();
+            return Taro.showToast({ title: '没有权限访问' });
+        }
         let { cookies, data } = res;
-        if(data.data&&data.data.token){
-            Taro.setStorageSync('token',data.data.token);
+        if (data.data && data.data.token) {
+            Taro.setStorageSync('Authorization', data.data.token);
         }
         if (cookies) {
             Taro.setStorageSync('Cookies', cookies[0])
