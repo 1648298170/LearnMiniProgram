@@ -31,9 +31,29 @@ export const getUserList =async (params:any)=>{
         data:params,
     })
 }
+export const getTokenData =async ()=>{
+    return await request({
+        url:'/user/get/token',
+        method:'get',
+        data:{
+            _:Date.now(),
+        },
+    })
+}
+export const logout =async ()=>{
+    return await request({
+        url:'/user/logout',
+        method:'post',
+        data:{
+            _:Date.now(),
+        },
+    })
+}
 
 export default {
     getCaptchaCode,
     verifyCaptchaCode,
-    getUserList
+    getUserList,
+    getTokenData,
+    logout
 };

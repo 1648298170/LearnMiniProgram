@@ -42,6 +42,7 @@ import './login.less'
 import { getCaptchaCode, verifyCaptchaCode } from '../../api/user';
 import { onMounted } from 'vue';
 import Taro from '@tarojs/taro';
+import { useStore } from '../../store/index'
 
 const userInfo = reactive({
   name: '',
@@ -52,23 +53,23 @@ const userInfo = reactive({
 
 // 验证码
 let codeUrl: any = ref(null);
+const store = useStore();
 //获取验证码
 const getcode = async () => {
   codeUrl.value = await getCaptchaCode();
 };
 // 登录
 const submit = async () => {
-  try{
+  try {
     await verifyCaptchaCode(userInfo);
-    Taro.navigateTo({
-      url:'/pages/layout/layout'
-    })
-  }catch(error){
+    await store.getTokenInfo();
+    Taro.navigateTo({ url: '/pages/layout/layout' })
+  } catch (error) {
     console.log(error);
   }
 }
 
-onMounted(()=>{
+onMounted(() => {
   getcode();
 })
 
